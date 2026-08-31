@@ -153,7 +153,7 @@ header{display:flex;align-items:center;gap:16px;border-bottom:1px solid var(--li
 .pchip{width:24px;height:24px;border-radius:6px;cursor:pointer;border:2px solid #fff;box-shadow:0 0 0 1px var(--line);color:#3a2f2a;font-size:9px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;transition:opacity .12s,box-shadow .12s}
 .pchip.dim{opacity:.28}
 .pchip.sel{box-shadow:0 0 0 2px var(--ink)}
-.editpanel{background:#FFF8EF;border:1px solid #F0DDBB;border-radius:9px;padding:10px 14px;align-items:center;gap:12px}
+.editpanel{background:#F6F6F7;border:1px solid #E8E8EA;border-radius:9px;padding:10px 14px;align-items:center;gap:12px}
 .prio-btns{display:flex;gap:6px}
 .prio-btn{width:34px;height:34px;border-radius:8px;border:1.5px solid var(--line);background:#fff;color:#000;font-weight:700;font-size:12.5px;cursor:pointer;font-family:inherit;transition:.12s}
 .prio-btn:hover{background:var(--head)}
@@ -166,7 +166,7 @@ header{display:flex;align-items:center;gap:16px;border-bottom:1px solid var(--li
 .prio-badge{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:5px;color:#3a2f2a;font-size:9px;font-weight:700;line-height:1}
 .prio-empty{color:var(--ink3);font-size:12px}
 .cell.ord.editable{cursor:pointer}
-.cell.ord.editable .prio-empty{color:var(--terra);font-weight:700}
+.cell.ord.editable .prio-empty{color:#C4C4CA;font-weight:700}
 .legblock{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
 .legblock .li{display:flex;align-items:center;gap:6px}
 .legblock .sw{width:12px;height:12px;border-radius:3px}
@@ -189,6 +189,13 @@ header{display:flex;align-items:center;gap:16px;border-bottom:1px solid var(--li
 .cell{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12.5px}
 .cell.strong{font-weight:600}
 .cell.val{font-weight:600;font-variant-numeric:tabular-nums;text-align:right}
+.cell.val.edited{color:var(--terra)}
+.obs-edit,.val-edit{border-bottom:1.5px solid #C4C4CA;outline:none;cursor:text;min-height:16px}
+.obs-edit:focus,.val-edit:focus{background:rgba(0,0,0,.04)}
+.item.proc-hidden{opacity:.38}
+.subrow.proc-hidden{opacity:.38}
+.prio-btn.hide-btn.on{border-color:var(--terra);box-shadow:0 0 0 2px rgba(192,86,33,.22)}
+.legsw{width:13px;height:13px;border-radius:3px;display:inline-block;flex:0 0 13px}
 .cell.muted{color:var(--ink3)}
 .cell.sit{display:flex;justify-content:center}
 .statico{width:22px;height:22px;flex:0 0 22px;display:block}
@@ -232,8 +239,8 @@ header{display:flex;align-items:center;gap:16px;border-bottom:1px solid var(--li
 .noresult{padding:44px 20px;text-align:center;color:var(--ink3);font-size:13px}
 .foot{margin-top:22px;font-size:10.5px;color:var(--ink3);text-align:center;line-height:1.6}
 
-@media(max-width:1180px){.cell.hcat,.colhead .hcat{display:none}}
-@media(max-width:900px){.cell.hsub,.colhead .hsub{display:none}}
+@media(max-width:1180px){.cell.hsub,.colhead .hsub{display:none}}
+@media(max-width:900px){.cell.hobs,.colhead .hobs{display:none}}
 @media(max-width:760px){.cell.hfor,.colhead .hfor{display:none}}
 
 /* ===== Modal de impressão ===== */
@@ -384,6 +391,8 @@ header{display:flex;align-items:center;gap:16px;border-bottom:1px solid var(--li
         <button class="prio-btn" data-p="A" style="--pc:#F6F6F7">A</button>
         <button class="prio-btn" data-p="M" style="--pc:#F6F6F7">M</button>
         <button class="prio-btn erase" data-p="__ERASE__" title="Limpar prioridade da linha"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20H7L3 16a2 2 0 0 1 0-2.8l9-9a2 2 0 0 1 2.8 0l5 5a2 2 0 0 1 0 2.8L11 20"/><line x1="7" y1="20" x2="20" y2="20"/></svg></button>
+        <span style="width:1px;height:26px;background:var(--line);margin:0 2px"></span>
+        <button class="prio-btn hide-btn" data-p="__HIDE__" title="Ocultar parcela (sai do somatório e do PDF)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg></button>
       </div>
       <span class="edithint">Escolha uma letra e clique nas linhas da tabela para classificar</span>
       <button class="btn" id="editok" style="margin-left:auto">OK</button>
@@ -479,7 +488,7 @@ function isSecundaria(r){if(!r||!r.length)return false;const h=r[0].map(x=>norm(
 
 /* ============ ESTADO ============ */
 let RAW={p1:null,p2:null}, DATA=null;
-let STATE={mode:'pend',search:'',obras:new Set(),cat:'',sit:'',ranges:new Set(),sort:'valdesc',page:0,desde:null,ate:null,editMode:false,armedPrio:null,priorities:new Map(),prios:new Set()};
+let STATE={mode:'pend',search:'',obras:new Set(),cat:'',sit:'',ranges:new Set(),sort:'valdesc',page:0,desde:null,ate:null,editMode:false,armedPrio:null,priorities:new Map(),prios:new Set(),edits:new Map(),hidden:new Set(),observations:new Map()};
 const PAGE=150;
 
 /* ============ PROCESSAMENTO ============ */
@@ -496,7 +505,7 @@ function build(){
   const G={};
   for(let i=1;i<A.length;i++){const r=A[i];if(!r||r[c.proc]==null)continue;const k=norm(r[c.obra])+'||'+norm(r[c.proc]);
     if(!G[k])G[k]={key:k,obra:norm(r[c.obra]),proc:r[c.proc],forn:norm(r[c.forn]),parcelas:[]};
-    G[k].parcelas.push({liq:+r[c.liq]||0,rawparc:r[c.parc],statraw:norm(r[c.stat]),paga:norm(r[c.stat]).includes('Contas Pagas'),
+    G[k].parcelas.push({liq:+r[c.liq]||0,rawparc:r[c.parc],statraw:norm(r[c.stat]),paga:!norm(r[c.stat]).includes('Contas a Pagar'),
       dproc:toDate(r[c.dproc]),dvenc:toDate(r[c.dvenc]),dpror:toDate(r[c.dpror])});}
 
   const today=new Date();today.setHours(0,0,0,0);
@@ -545,28 +554,28 @@ function currentParcelas(){
   let ps=DATA.parcelas.filter(p=>{
     if(STATE.mode==='pend'&&p.paga)return false;
     if(STATE.mode==='pago'&&!p.paga)return false;
-    if(STATE.ranges.size&&!STATE.ranges.has(p.faixa.k))return false;
+    if(STATE.ranges.size&&!STATE.ranges.has(eFaixa(p).k))return false;
     if(STATE.mode==='pend'&&STATE.prios.size&&!STATE.prios.has(prioOf(p)))return false;
     if(STATE.obras.size<totalObras&&!STATE.obras.has(p.group.obra))return false;
     if(STATE.cat&&p.group.cat!==STATE.cat)return false;
     if(STATE.sit&&p.sit!==STATE.sit)return false;
     if(STATE.desde&&(!p.dpror||p.dpror<STATE.desde))return false;
     if(STATE.ate&&(!p.dpror||p.dpror>STATE.ate))return false;
-    if(sMode==='range'){if(p.liq<sA||p.liq>sB)return false;}
-    else if(sMode==='value'){const vd=Math.trunc(p.liq).toString(),qd=Math.trunc(sA).toString();if(!vd.includes(qd))return false;}
+    if(sMode==='range'){const lv=eLiq(p);if(lv<sA||lv>sB)return false;}
+    else if(sMode==='value'){const vd=Math.trunc(eLiq(p)).toString(),qd=Math.trunc(sA).toString();if(!vd.includes(qd))return false;}
     else if(sMode==='text'){const hay=(p.group.forn+' '+p.group.proc+' '+p.group.cat+' '+p.group.sub+' '+p.group.si.map(s=>s.ins).join(' ')).toLowerCase();if(!hay.includes(sText))return false;}
     return true;
   });
   const s=STATE.sort;
   ps.sort((a,b)=>{
-    if(s==='pror')return (a.dpror||0)-(b.dpror||0)||b.liq-a.liq;
-    if(s==='prord')return (b.dpror||0)-(a.dpror||0)||b.liq-a.liq;
-    if(s==='valdesc')return b.liq-a.liq;
-    if(s==='valasc')return a.liq-b.liq;
+    if(s==='pror')return (a.dpror||0)-(b.dpror||0)||eLiq(b)-eLiq(a);
+    if(s==='prord')return (b.dpror||0)-(a.dpror||0)||eLiq(b)-eLiq(a);
+    if(s==='valdesc')return eLiq(b)-eLiq(a);
+    if(s==='valasc')return eLiq(a)-eLiq(b);
     if(s==='forn')return a.group.forn.localeCompare(b.group.forn,'pt-BR');
     if(s==='obra')return a.group.obra.localeCompare(b.group.obra,'pt-BR')||a.group.proc-b.group.proc;
-    if(s==='prio')return prioRank(b)-prioRank(a)||(a.dpror||0)-(b.dpror||0)||b.liq-a.liq;
-    if(s==='priovalor')return prioRank(b)-prioRank(a)||b.liq-a.liq;
+    if(s==='prio')return prioRank(b)-prioRank(a)||(a.dpror||0)-(b.dpror||0)||eLiq(b)-eLiq(a);
+    if(s==='priovalor')return prioRank(b)-prioRank(a)||eLiq(b)-eLiq(a);
     return 0;});
   return ps;
 }
@@ -604,17 +613,24 @@ function renderLegend(){
   const prio=['A1','A','M'].map(k=>`<span class="li"><span class="prio-badge" style="background:${PRIO_DEF[k].color};color:${PRIO_DEF[k].txt}">${k}</span>${PRIO_DEF[k].desc}</span>`).join('');
   const sit=['vencido','avencer','pago'].map(s=>`<span class="li"><span class="legico">${ico(s)}</span>${SITLABEL[s]}</span>`).join('');
   $('legend').innerHTML=
-    `<div class="legrow"><div class="legblock"><span class="flbl">Faixa de valor</span>${faixa}</div><span class="legsep"></span><div class="legblock"><span class="flbl">Prioridade</span>${prio}</div><span class="legsep"></span><div class="legblock"><span class="flbl">Situação</span>${sit}</div></div>`;
+    `<div class="legrow"><div class="legblock"><span class="flbl">Faixa de valor</span>${faixa}</div><span class="legsep"></span><div class="legblock"><span class="flbl">Prioridade</span>${prio}</div><span class="legsep"></span><div class="legblock"><span class="flbl">Situação</span>${sit}</div><span class="legsep"></span><div class="legblock"><span class="li"><span class="legsw" style="background:#C05621"></span>Editado</span></div></div>`;
 }
 function colTemplate(){
   const pend=STATE.mode==='pend';
   const ordCol=pend?' 34px':'';
   const ordHead=pend?'<span class="tcenter">PDP</span>':'';
   return{cols:`26px 76px 62px 80px${ordCol} minmax(140px,1.4fr) minmax(110px,1fr) minmax(100px,.9fr) 86px 118px 18px`,
-  head:`<span class="tcenter"></span><span>Obra</span><span>Proc.</span><span>Vencimento</span>${ordHead}<span class="hfor">Fornecedor</span><span class="hcat">Categoria</span><span class="hsub">Subcategoria</span><span class="tcenter">Parc.</span><span class="tright">Vlr. líquido</span><span></span>`};}
+  head:`<span class="tcenter"></span><span>Obra</span><span>Proc.</span><span>Vencimento</span>${ordHead}<span class="hfor">Fornecedor</span><span class="hsub">Subcategoria</span><span class="hobs">Observações</span><span class="tcenter">Parc.</span><span class="tright">Vlr. líquido</span><span></span>`};}
 const PRIO_DEF={A1:{label:'A1',color:'#F6F6F7',txt:'#000000',desc:'muito alto'},A:{label:'A',color:'#F6F6F7',txt:'#000000',desc:'alto'},M:{label:'M',color:'#F6F6F7',txt:'#000000',desc:'médio'}};
 const PRIO_RANK={A1:3,A:2,M:1};
 function prioKey(p){return p.group.key+'|'+p.num;}
+function isHidden(p){return STATE.hidden.has(prioKey(p));}
+function eLiq(p){const k=prioKey(p);return STATE.edits.has(k)?STATE.edits.get(k):p.liq;}
+function isEdited(p){const k=prioKey(p);return STATE.edits.has(k)&&STATE.edits.get(k)!==p.liq;}
+function eFaixa(p){return faixaOf(eLiq(p));}
+function getObs(p){return STATE.observations.get(prioKey(p))||'';}
+function obsCell(p){const txt=getObs(p);if(STATE.editMode)return `<span class="cell hobs obs-edit" contenteditable="true" data-gkey="${esc(p.group.key)}" data-pnum="${p.num}">${esc(txt)}</span>`;return `<span class="cell hobs muted">${esc(txt)}</span>`;}
+function valCell(p){const v=eLiq(p),edited=isEdited(p);const cls='cell val'+(edited?' edited':'');if(STATE.editMode)return `<span class="${cls} val-edit" contenteditable="true" data-gkey="${esc(p.group.key)}" data-pnum="${p.num}" data-orig="${p.liq}">${fmt(v)}</span>`;return `<span class="${cls}">${fmt(v)}</span>`;}
 function prioOf(p){return STATE.priorities.get(prioKey(p));}
 function prioRank(p){return PRIO_RANK[prioOf(p)]||0;}
 function ordCell(p){
@@ -639,8 +655,8 @@ function detailHTML(p){
       <div class="df"><div class="dl">Fornecedor</div><div class="dv">${esc(g.forn)||'—'}</div></div>
       <div class="df"><div class="dl">Situação</div><div class="dv"><span class="pill">${ico(p.sit)} ${SITLABEL[p.sit]}</span></div></div>
       <div class="df"><div class="dl">Parcela</div><div class="dv">${p.num} de ${g.N}${rawNote}</div></div>
-      <div class="df"><div class="dl">Vlr. líquido (parcela)</div><div class="dv big">${fmt(p.liq)}</div></div>
-      <div class="df"><div class="dl">Vlr. total do processo</div><div class="dv">${fmt(g.total)}</div></div>
+${isEdited(p)?`<div class="df"><div class="dl">Valor antes</div><div class="dv">${fmt(p.liq)}</div></div><div class="df"><div class="dl">Valor editado</div><div class="dv big">${fmt(eLiq(p))}</div></div>`:`<div class="df"><div class="dl">Vlr. líquido (parcela)</div><div class="dv big">${fmt(p.liq)}</div></div>`}
+      <div class="df"><div class="dl">Vlr. total do processo</div><div class="dv">${fmt(g.parcelas.reduce((s,q)=>s+eLiq(q),0))}</div></div>
       <div class="df"><div class="dl">Categoria</div><div class="dv">${esc(g.cat)}${g.catCount>1?` <span style="color:var(--ink3)">(+${g.catCount-1})</span>`:''}</div></div>
       <div class="df"><div class="dl">Subcategoria</div><div class="dv">${esc(g.sub)}</div></div>
       <div class="df"><div class="dl">Status UAU</div><div class="dv">${esc(p.statraw)}</div></div>
@@ -654,34 +670,48 @@ function detailHTML(p){
 function rowCells(p,forGroup){
   const g=p.group,dt=fmtD(p.dpror);
   const ord=STATE.mode==='pend'?ordCell(p):'';
-  if(forGroup)return `<span class="cell sit">${ico(p.sit)}</span><span class="cell muted"></span><span class="cell muted"></span><span class="cell muted mono-num">${dt}</span>${ord}<span class="cell muted hfor"></span><span class="cell muted hcat"></span><span class="cell muted hsub"></span><span class="cell tcenter pcell"><span class="parc-tag">${p.num}/${g.N}</span></span><span class="cell val">${fmt(p.liq)}</span>${chevSvg()}`;
-  return `<span class="cell sit">${ico(p.sit)}</span><span class="cell"><span class="badge-obra">${esc(g.obra)}</span></span><span class="cell strong proc-n">${esc(g.proc)}</span><span class="cell mono-num">${dt}</span>${ord}<span class="cell hfor">${esc(g.forn)||'—'}</span><span class="cell hcat muted">${esc(g.cat)}</span><span class="cell hsub muted">${esc(g.sub)}</span><span class="cell tcenter pcell">${g.N>1?`<span class="parc-tag">${p.num}/${g.N}</span>`:'—'}</span><span class="cell val">${fmt(p.liq)}</span>${chevSvg()}`;
+  if(forGroup)return `<span class="cell sit">${ico(p.sit)}</span><span class="cell muted"></span><span class="cell muted"></span><span class="cell muted mono-num">${dt}</span>${ord}<span class="cell muted hfor"></span><span class="cell muted hsub"></span>${obsCell(p)}<span class="cell tcenter pcell"><span class="parc-tag">${p.num}/${g.N}</span></span>${valCell(p)}${chevSvg()}`;
+  return `<span class="cell sit">${ico(p.sit)}</span><span class="cell"><span class="badge-obra">${esc(g.obra)}</span></span><span class="cell strong proc-n">${esc(g.proc)}</span><span class="cell mono-num">${dt}</span>${ord}<span class="cell hfor">${esc(g.forn)||'—'}</span><span class="cell hsub muted">${esc(g.sub)}</span>${obsCell(p)}<span class="cell tcenter pcell">${g.N>1?`<span class="parc-tag">${p.num}/${g.N}</span>`:'—'}</span>${valCell(p)}${chevSvg()}`;
 }
 
 let VIEW=[];
 function render(){
   const ct=colTemplate();document.documentElement.style.setProperty('--cols',ct.cols);$('colhead').innerHTML=ct.head;
-  const ps=currentParcelas();VIEW=groupVisible(ps);updateKPIs(ps);refreshPrioFilter();
-  const totV=ps.reduce((s,p)=>s+p.liq,0);
-  const dts=ps.map(p=>p.dpror).filter(Boolean).sort((a,b)=>a-b);
+  const ps=currentParcelas();VIEW=groupVisible(ps);
+  const psVis=ps.filter(p=>!isHidden(p));updateKPIs(psVis);refreshPrioFilter();
+  const totV=psVis.reduce((s,p)=>s+eLiq(p),0);
+  const procVis=new Set(psVis.map(p=>p.group.key)).size;
+  const dts=psVis.map(p=>p.dpror).filter(Boolean).sort((a,b)=>a-b);
   const per=dts.length?` · ${fmtD(dts[0])} – ${fmtD(dts[dts.length-1])}`:'';
   $('listtitle').textContent=STATE.mode==='pend'?'Pagamentos pendentes':(STATE.mode==='pago'?'Contas pagas':'Todos os lançamentos');
-  $('listcount').textContent=`${nBR(VIEW.length)} processos · ${nBR(ps.length)} parcelas · ${fmt(totV)}${per}`;
+  $('listcount').textContent=`${nBR(procVis)} processos · ${nBR(psVis.length)} parcelas · ${fmt(totV)}${per}`;
   const end=Math.min(VIEW.length,(STATE.page+1)*PAGE);
   const slice=VIEW.slice(0,end);const list=$('list');
   if(!slice.length){list.innerHTML=`<div class="noresult">Nenhum lançamento encontrado com os filtros atuais.</div>`;$('loadmore').classList.add('hide');return;}
   list.innerHTML=slice.map(gr=>{const g=gr.group,ps=gr.parcelas;
-    if(ps.length===1){const p=ps[0];return `<div class="item"><div class="row" data-gkey="${esc(g.key)}" data-pnum="${p.num}" style="--edge:${p.faixa.color}">${rowCells(p,false)}</div>${detailHTML(p)}</div>`;}
+    if(ps.length===1){const p=ps[0];return `<div class="item${isHidden(p)?' proc-hidden':''}"><div class="row" data-gkey="${esc(g.key)}" data-pnum="${p.num}" style="--edge:${eFaixa(p).color}">${rowCells(p,false)}</div>${detailHTML(p)}</div>`;}
     const ordPh=STATE.mode==='pend'?'<span class="cell"></span>':'';
-    const head=`<div class="grouphead" style="--edge:#CBCBD0"><span class="cell sit"></span><span class="cell"><span class="badge-obra">${esc(g.obra)}</span></span><span class="cell strong proc-n">${esc(g.proc)}</span><span class="cell muted">${ps.length} parcelas</span>${ordPh}<span class="cell hfor strong">${esc(g.forn)||'—'}</span><span class="cell hcat muted">${esc(g.cat)}</span><span class="cell hsub muted">${esc(g.sub)}</span><span class="cell tcenter muted">—</span><span class="cell val">${fmt(ps.reduce((s,p)=>s+p.liq,0))}</span><span></span></div>`;
-    const subs=ps.map(p=>`<div class="subrow" data-gkey="${esc(g.key)}" data-pnum="${p.num}" style="--edge:${p.faixa.color}">${rowCells(p,true)}</div>${detailHTML(p)}`).join('');
+    const head=`<div class="grouphead" style="--edge:#CBCBD0"><span class="cell sit"></span><span class="cell"><span class="badge-obra">${esc(g.obra)}</span></span><span class="cell strong proc-n">${esc(g.proc)}</span><span class="cell muted">${ps.length} parcelas</span>${ordPh}<span class="cell hfor strong">${esc(g.forn)||'—'}</span><span class="cell hsub muted">${esc(g.sub)}</span><span class="cell hobs muted"></span><span class="cell tcenter muted">—</span><span class="cell val">${fmt(ps.filter(p=>!isHidden(p)).reduce((s,p)=>s+eLiq(p),0))}</span><span></span></div>`;
+    const subs=ps.map(p=>`<div class="subrow${isHidden(p)?' proc-hidden':''}" data-gkey="${esc(g.key)}" data-pnum="${p.num}" style="--edge:${eFaixa(p).color}">${rowCells(p,true)}</div>${detailHTML(p)}`).join('');
     return `<div class="item grp">${head}${subs}</div>`;}).join('');
-  list.querySelectorAll('.item:not(.grp) .row').forEach(r=>r.onclick=()=>{
+  list.querySelectorAll('.item:not(.grp) .row').forEach(r=>r.onclick=e=>{
+    if(e.target.closest('[contenteditable]'))return;
     if(STATE.editMode&&STATE.armedPrio){applyPrio(r.dataset.gkey,+r.dataset.pnum);return;}
     r.parentElement.classList.toggle('open');});
-  list.querySelectorAll('.subrow').forEach(sr=>sr.onclick=()=>{
+  list.querySelectorAll('.subrow').forEach(sr=>sr.onclick=e=>{
+    if(e.target.closest('[contenteditable]'))return;
     if(STATE.editMode&&STATE.armedPrio){applyPrio(sr.dataset.gkey,+sr.dataset.pnum);return;}
     sr.classList.toggle('open');});
+  list.querySelectorAll('.obs-edit').forEach(el=>{
+    el.onclick=e=>e.stopPropagation();
+    el.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();el.blur();}};
+    el.onblur=()=>{const k=el.dataset.gkey+'|'+el.dataset.pnum,v=el.textContent.trim();if(v)STATE.observations.set(k,v);else STATE.observations.delete(k);render();};});
+  list.querySelectorAll('.val-edit').forEach(el=>{
+    el.onclick=e=>e.stopPropagation();
+    el.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();el.blur();}};
+    el.onblur=()=>{const k=el.dataset.gkey+'|'+el.dataset.pnum,orig=+el.dataset.orig,n=brNum(el.textContent);
+      if(n==null||n<0){render();return;}
+      if(Math.abs(n-orig)<0.005)STATE.edits.delete(k);else STATE.edits.set(k,n);render();};});
   if(end<VIEW.length){$('loadmore').classList.remove('hide');$('more').textContent=`Carregar mais (${nBR(VIEW.length-end)} restantes)`;}
   else $('loadmore').classList.add('hide');
 }
@@ -718,7 +748,7 @@ function setEditMode(v,skipRender){
   $('editpanel').querySelectorAll('.prio-btn').forEach(b=>b.classList.toggle('on',b.dataset.p===STATE.armedPrio));
   if(!skipRender)render();
 }
-function applyPrio(gkey,pnum){const k=gkey+'|'+pnum;if(STATE.armedPrio==='__ERASE__')STATE.priorities.delete(k);else STATE.priorities.set(k,STATE.armedPrio);render();}
+function applyPrio(gkey,pnum){const k=gkey+'|'+pnum;if(STATE.armedPrio==='__HIDE__'){if(STATE.hidden.has(k))STATE.hidden.delete(k);else STATE.hidden.add(k);render();return;}if(STATE.armedPrio==='__ERASE__')STATE.priorities.delete(k);else STATE.priorities.set(k,STATE.armedPrio);render();}
 
 function buildObraPanel(){
   const p=$('obrapanel');
@@ -783,12 +813,12 @@ function openPrintModal(){$('printmodal').classList.remove('hide');}
 function closePrintModal(){$('printmodal').classList.add('hide');}
 function printSummary(ps){
   let vV=0,aV=0,pgV=0;const vP=new Set,aP=new Set,pgP=new Set,pendP=new Set;
-  ps.forEach(p=>{if(p.sit==='pago'){pgV+=p.liq;pgP.add(p.group.key);}else{pendP.add(p.group.key);if(p.sit==='vencido'){vV+=p.liq;vP.add(p.group.key);}else{aV+=p.liq;aP.add(p.group.key);}}});
+  ps.forEach(p=>{const L=eLiq(p);if(p.sit==='pago'){pgV+=L;pgP.add(p.group.key);}else{pendP.add(p.group.key);if(p.sit==='vencido'){vV+=L;vP.add(p.group.key);}else{aV+=L;aP.add(p.group.key);}}});
   return {vencV:vV,avV:aV,pagoV:pgV,pendV:vV+aV,vencP:vP.size,avP:aP.size,pagoP:pgP.size,pendP:pendP.size,hasV:vP.size>0,hasA:aP.size>0,hasP:pgP.size>0};
 }
 function printPDF(orient){
   orient=(orient==='portrait')?'portrait':'landscape';
-  const ps=currentParcelas();
+  const ps=currentParcelas().filter(p=>!isHidden(p));
   const title=STATE.mode==='pend'?'Pagamentos pendentes':(STATE.mode==='pago'?'Contas pagas':'Todos os lançamentos');
   const dts=ps.map(p=>p.dpror).filter(Boolean).sort((a,b)=>a-b);
   const per=dts.length?`${fmtD(dts[0])} – ${fmtD(dts[dts.length-1])}`:'—';
@@ -801,23 +831,23 @@ function printPDF(orient){
     ? `<colgroup><col style="width:5px"><col style="width:20px"><col style="width:50px"><col style="width:32px"><col style="width:60px">${odpC}<col><col><col style="width:${withOdp?'150':'190'}px"><col style="width:38px"><col style="width:84px"></colgroup>`
     : `<colgroup><col style="width:5px"><col style="width:22px"><col style="width:42px"><col style="width:34px"><col style="width:64px">${odpC}<col><col><col><col style="width:46px"><col style="width:98px"></colgroup>`;
   const odpH=withOdp?'<th class="c">PDP</th>':'';
-  const headCols=`<thead><tr class="pcols"><th></th><th class="c">Sit.</th><th>Obra</th><th>Proc.</th><th>Vencimento</th>${odpH}<th>Fornecedor</th><th>Categoria</th><th>Subcategoria</th><th class="c">Parc.</th><th class="r">Vlr. líquido</th></tr></thead>`;
+  const headCols=`<thead><tr class="pcols"><th></th><th class="c">Sit.</th><th>Obra</th><th>Proc.</th><th>Vencimento</th>${odpH}<th>Fornecedor</th><th>Subcategoria</th><th>Observações</th><th class="c">Parc.</th><th class="r">Vlr. líquido</th></tr></thead>`;
   const faixaLeg=FAIXA_DISP.map(x=>`<span><i style="background:${x.color}"></i>${x.label}</span>`).join('');
   const prioLeg=['A1','A','M'].map(k=>`<span><i style="background:${PRIO_DEF[k].color};color:${PRIO_DEF[k].txt};width:13px;height:13px;font-size:7px;font-weight:700;text-align:center;line-height:13px;border-radius:3px">${k}</i>${PRIO_DEF[k].desc}</span>`).join('');
   const sitLeg=['vencido','avencer','pago'].map(s=>`<span>${litIco(s)}${SITLABEL[s]}</span>`).join('');
   const footer=`<div class="pfoot-in">
       <div class="pf-line"><b>Filtros aplicados</b> — Modo: ${esc(f.modeL)} · Categoria: ${esc(f.catL)} · Situação: ${esc(f.sitL)} · Período: ${esc(f.perL)} · Busca: ${esc(f.busca)} · Faixa de valor: ${esc(f.faixaL)}</div>
       <div class="pf-line"><b>Obras selecionadas</b> — ${esc(f.obraL)}</div>
-      <div class="pleg"><b style="margin-right:4px">Faixa:</b>${faixaLeg}${withOdp?`<span style="width:8px"></span><b style="margin:0 4px">Prioridade:</b>${prioLeg}`:''}<span style="width:8px"></span><b style="margin:0 4px">Situação:</b>${sitLeg}</div>
+      <div class="pleg"><b style="margin-right:4px">Faixa:</b>${faixaLeg}${withOdp?`<span style="width:8px"></span><b style="margin:0 4px">Prioridade:</b>${prioLeg}`:''}<span style="width:8px"></span><b style="margin:0 4px">Situação:</b>${sitLeg}<span style="width:8px"></span><span><i style="background:#C05621"></i>Editado</span></div>
     </div>`;
-  const rowHTML=p=>{const g=p.group;const pr=prioOf(p);
+  const rowHTML=p=>{const g=p.group;const pr=prioOf(p);const ed=isEdited(p);
     const odpTd=withOdp?`<td class="c">${pr?`<span class="ppdf" style="background:${PRIO_DEF[pr].color};color:${PRIO_DEF[pr].txt}">${pr}</span>`:'—'}</td>`:'';
     return `<tr>
-    <td class="edge" style="background:${p.faixa.color};-webkit-print-color-adjust:exact;print-color-adjust:exact"></td>
+    <td class="edge" style="background:${eFaixa(p).color};-webkit-print-color-adjust:exact;print-color-adjust:exact"></td>
     <td class="c">${litIco(p.sit)}</td>
     <td>${esc(g.obra)}</td><td>${esc(g.proc)}</td><td>${fmtD(p.dpror)}</td>${odpTd}
-    <td>${esc(g.forn)||'—'}</td><td>${esc(g.cat)}</td><td>${esc(g.sub)}</td>
-    <td class="c">${g.N>1?p.num+'/'+g.N:'—'}</td><td class="r">${fmt(p.liq)}</td></tr>`;};
+    <td>${esc(g.forn)||'—'}</td><td>${esc(g.sub)}</td><td>${esc(getObs(p))}</td>
+    <td class="c">${g.N>1?p.num+'/'+g.N:'—'}</td><td class="r"${ed?' style="color:#C05621;-webkit-print-color-adjust:exact;print-color-adjust:exact"':''}>${fmt(eLiq(p))}</td></tr>`;};
   // Resumo: reflete EXATAMENTE o que foi filtrado (ps). Só mostra os cards das situações presentes.
   const S=printSummary(ps);
   const pPendActive=(S.hasV||S.hasA), pPagoActive=S.hasP;
@@ -856,7 +886,7 @@ const fmtISO=d=>d?`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-
 function serializeState(){return {mode:STATE.mode,search:STATE.search,obras:[...STATE.obras],cat:STATE.cat,sit:STATE.sit,ranges:[...STATE.ranges],sort:STATE.sort,desde:fmtISO(STATE.desde),ate:fmtISO(STATE.ate),prios:[...STATE.prios]};}
 function saveBackup(){
   if(!(RAW.p1&&RAW.p2))return;
-  const payload={v:1,files:{p1:RAW.p1.name,p2:RAW.p2.name},p1:RAW.p1.rows,p2:RAW.p2.rows,state:serializeState(),priorities:[...STATE.priorities.entries()]};
+  const payload={v:1,files:{p1:RAW.p1.name,p2:RAW.p2.name},p1:RAW.p1.rows,p2:RAW.p2.rows,state:serializeState(),priorities:[...STATE.priorities.entries()],edits:[...STATE.edits.entries()],hidden:[...STATE.hidden],observations:[...STATE.observations.entries()]};
   const b64=btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
   const csv='BKP_BACKUP_V1\r\n'+b64;
   const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
@@ -871,6 +901,9 @@ function applyRestore(P){
   STATE.obras=new Set(s.obras&&s.obras.length?s.obras:DATA.obras);
   STATE.desde=s.desde?toDate(s.desde):null;STATE.ate=s.ate?toDate(s.ate):null;
   STATE.priorities=new Map(P.priorities||[]);
+  STATE.hidden=new Set(P.hidden||[]);
+  STATE.observations=new Map(P.observations||[]);
+  STATE.edits=new Map(P.edits||[]);
   $('search').value=STATE.search;
   if(s.desde)$('pdesde').value=s.desde; if(s.ate)$('pate').value=s.ate;
   buildObraPanel();
